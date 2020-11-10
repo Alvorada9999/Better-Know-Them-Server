@@ -4,7 +4,7 @@ const resetEachPlayerAnswer = require("./resetEachPlayerAnswer");
 
 module.exports = (room) => {
   if (room[0].hasTheMatchAlreadyStarted === false) {
-    if (room.length > 1) {
+    if (room.length > 2) {
       console.log("The match has started");
       //That verify if there is more than one player inside the room
       room[room[0].playerToPlayNext].player.send(
@@ -13,8 +13,9 @@ module.exports = (room) => {
         })
       );
       console.log("The question requisition has been sent\n");
+      changePlayerToPlayNext(room);
       room[0].interval = setInterval(() => {
-        if (room.length > 1) {
+        if (room.length > 2) {
           //That verify if still there is more than one player inside the room
           sendTheResultsToEveryoneInTheRoom(room);
           resetEachPlayerAnswer(room);
