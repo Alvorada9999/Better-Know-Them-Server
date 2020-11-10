@@ -14,14 +14,7 @@ const sendTheQuestionToOtherPlayers = require("./functions/sendTheQuestionToOthe
 const storeTheAnswerThatHasArrived = require("./functions/storeTheAnswerThatHasArrived");
 const removePlayerFromTheRoom = require("./functions/removePlayerFromTheRoom");
 
-let rooms = {
-  room: [
-    {
-      playerToPlayNext: 1,
-      hasTheMatchAlreadyStarted: false,
-    },
-  ],
-};
+let rooms = {};
 
 /*app.use((req, res) => {
   //Don't foget to send the home page if the user tries to enter some page that does note exists
@@ -95,6 +88,10 @@ wsServer.on("connection", (ws, req) => {
       //It runs twice because the protocol
       //This event needs to be inside the on message event because it needs the room name to remove the player
       removePlayerFromTheRoom(rooms[jsonMessage.roomName], ws);
+      if (rooms[jsonMessage.roomName].length === 1) {
+        clearInterval(rooms[jsonMessage.roomName][0].interval); //This delete the interval
+        delete rooms[jsonMessage.roomName]; //This delete the room if there is no players inside it
+      }
     });
   });
 });
