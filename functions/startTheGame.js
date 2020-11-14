@@ -25,6 +25,9 @@ module.exports = (room) => {
             })
           );
           changePlayerToPlayNext(room);
+        } else {
+          clearInterval(room[0].interval);
+          room[0].hasTheMatchAlreadyStarted = false;
         }
       }, 30000);
       room[0].hasTheMatchAlreadyStarted = true;
